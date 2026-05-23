@@ -17,18 +17,9 @@ export const getColleges = async (
   if (filters.search?.trim()) params.search = filters.search.trim();
   if (filters.location && filters.location !== "all")
     params.location = filters.location;
-  if (filters.state && filters.state !== "all")
-    params.state = filters.state;
   if (filters.course && filters.course !== "all") params.course = filters.course;
-  if (filters.ownershipType && filters.ownershipType !== "all")
-    params.ownershipType = filters.ownershipType;
-  if (filters.exam && filters.exam !== "all")
-    params.exam = filters.exam;
   if (filters.minFees) params.minFees = filters.minFees;
   if (filters.maxFees) params.maxFees = filters.maxFees;
-  if (filters.maxNirfRank) params.maxNirfRank = filters.maxNirfRank;
-  if (filters.minAvgPackage) params.minAvgPackage = filters.minAvgPackage;
-  if (filters.minPlacementPercentage) params.minPlacementPercentage = filters.minPlacementPercentage;
   if (filters.page) params.page = filters.page;
   if (filters.limit) params.limit = filters.limit;
 

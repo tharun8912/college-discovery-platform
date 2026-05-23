@@ -1,14 +1,10 @@
 import { PrismaClient, Prisma, type College } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { collegesData } from "./data/collegesData";
+import { collegesData } from "./data/colleges";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Starting database seed...");
-
-  // Clean old data to avoid unique constraint violations
-  console.log("Cleaning old database entries...");
   await prisma.answer.deleteMany();
   await prisma.question.deleteMany();
   await prisma.review.deleteMany();
@@ -16,69 +12,44 @@ async function main() {
   await prisma.savedComparison.deleteMany();
   await prisma.college.deleteMany();
 
-  console.log(`Seeding ${collegesData.length} colleges...`);
-  
   const created: College[] = [];
   for (const college of collegesData) {
     const c = await prisma.college.create({
-      data: {
-        ...college,
-        // Ensure legacy fields match new detailed fields for backward compatibility
-        rating: college.careers360Rating,
-        placement: college.placementPercentage,
-        banner: college.banner || college.images?.[0] || "",
-        image: college.image || college.images?.[1] || "",
-        campusImages: college.campusImages || college.images || [],
-        website: college.officialWebsite || college.website || "",
-        acceptedExams: college.examsAccepted || [],
-      } as Prisma.CollegeUncheckedCreateInput,
+      data: college as any,
     });
     created.push(c);
   }
 
-  console.log("Generating realistic reviews...");
-  const reviewers = [
-    { author: "K. Tharun Kumar", rating: 4.5, comment: "Excellent infrastructure, faculty members are very supportive. The placements are amazing, especially for CSE/IT branches." },
-    { author: "Ananya Rao", rating: 4.0, comment: "Decent campus life. Labs are well-equipped. Hostel food could be improved but facilities are top tier." },
-    { author: "Rahul Reddy", rating: 4.8, comment: "Outstanding research ecosystem and coding culture. Direct industry exposure through practice school and internships." },
-    { author: "Pooja Hegde", rating: 4.2, comment: "Fests are great! Transport is regular and placement cell does a very thorough job preparing students." },
-    { author: "Suresh Naidu", rating: 3.8, comment: "Feasible ROI if you join via convener quota. Great academic standards but attendance rules are strict." }
-  ];
-
-  for (const college of created) {
-    // Add 2-3 reviews per college
-    const selectedReviews = [
-      reviewers[Math.floor(Math.random() * reviewers.length)],
-      reviewers[(Math.floor(Math.random() * reviewers.length) + 1) % reviewers.length],
-      reviewers[(Math.floor(Math.random() * reviewers.length) + 2) % reviewers.length],
-    ];
-
+  for (const college of created.slice(0, 6)) {
     await prisma.review.createMany({
-      data: selectedReviews.map(r => ({
-        collegeId: college.id,
-        author: r.author,
-        rating: r.rating,
-        comment: `${r.comment} (${college.shortName || college.name})`,
-      }))
+      data: [
+        {
+          collegeId: college.id,
+          author: "Rahul K.",
+          rating: 4.5,
+          comment: "Great faculty and placement cell support. Campus life is active.",
+        },
+        {
+          collegeId: college.id,
+          author: "Priya S.",
+          rating: 4.0,
+          comment: "Good infrastructure. Fees are reasonable for the ROI on placements.",
+        },
+      ],
     });
   }
 
-  console.log("Seeding QA forums...");
   await prisma.question.create({
     data: {
-      title: "Which college has the best placement ROI under TS EAMCET?",
-      body: "I got a 4,500 rank in TS EAMCET. Confused between CBIT CSE, VNR VJIET CSE, and Vasavi CSE. Which has better packages and coding culture?",
-      author: "EamcetAspirant2026",
+      title: "Which college is better for CSE in Hyderabad under 2L fees?",
+      body: "I have EAMCET rank 12,000. Confused between CBIT, VNR, and MGIT. Any seniors?",
+      author: "Aspirant2026",
       answers: {
         create: [
           {
-            body: "CBIT is generally the oldest and has a very strong alumni network, but VNR VJIET has been performing exceptionally well in coding placements recently, with average packages close to 8 LPA. Vasavi has strict discipline and great placements too. Go for VNR or CBIT based on travel distance!",
-            author: "SeniorDeveloperHyd",
+            body: "VNR and CBIT both have strong CSE placements. MGIT is more budget-friendly.",
+            author: "SeniorDev",
           },
-          {
-            body: "I am a CBIT senior. CBIT coding culture is great, and if you work hard, you can crack companies like Microsoft or Oracle which visit campus. Highly recommend CBIT!",
-            author: "CbitSenior2024",
-          }
         ],
       },
     },
@@ -95,12 +66,12 @@ async function main() {
     },
   });
 
-  console.log(`Successfully seeded ${created.length} colleges, reviews, community questions, and demo user.`);
+  console.log(`Seeded ${created.length} colleges with rich Careers360-style data.`);
 }
 
 main()
   .catch((e) => {
-    console.error("Error seeding database:", e);
+    console.error(e);
     process.exit(1);
   })
   .finally(async () => {

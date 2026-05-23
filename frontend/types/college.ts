@@ -11,43 +11,46 @@ export interface College {
   id: number;
   name: string;
   slug?: string;
-  shortName?: string;
+  shortName?: string | null;
   location: string;
-  state?: string;
+  state?: string | null;
+  nirfRank?: number | null;
+  careers360Rating?: number | null;
   fees: number;
-  rating: number; // Backwards compatible rating
-  careers360Rating?: number; // Out of 5.0
-  placement: number; // Backwards compatible placement
-  placementPercentage?: number;
-  avgPackage?: number; // In LPA
-  highestPackage?: number; // In LPA
+  avgPackage?: number | null;
+  highestPackage?: number | null;
+  placementPercentage?: number | null;
+  courses?: string[];
+  examsAccepted?: string[];
+  ownershipType?: string | null;
+  establishedYear?: number | null;
+  accreditation?: string | null;
+  featured?: boolean;
+  description?: string | null;
+  detailedOverview?: string | null;
+  admissionProcess?: string | null;
+  eligibility?: string | null;
+  facilities?: string[];
+  recruiters?: string[];
+  rankings?: any;
+  images?: any;
   logo?: string | null;
+  campusSize?: string | null;
+  facultyCount?: number | null;
+  studentCount?: number | null;
+  officialWebsite?: string | null;
+  
+  // Legacy fields
+  rating?: number | null;
+  placement?: number | null;
   banner?: string | null;
   image?: string | null;
   campusImages?: string[];
-  description?: string | null;
-  detailedOverview?: string;
-  admissionProcess?: string;
-  eligibility?: string;
-  website?: string | null; // Backwards compatible website
-  officialWebsite?: string;
-  courses?: string[];
-  acceptedExams?: string[]; // Backwards compatible accepted exams
-  examsAccepted?: string[];
+  website?: string | null;
+  ranking?: number | null;
+  acceptedExams?: string[];
   cutoffRank?: number | null;
-  recruiters?: string[];
-  ranking?: number | null; // Backwards compatible ranking
-  nirfRank?: number | null;
-  ownershipType?: string;
-  establishedYear?: number;
-  accreditation?: string;
-  featured?: boolean;
-  facilities?: string[];
-  rankings?: string[];
-  images?: string[];
-  campusSize?: string;
-  facultyCount?: number;
-  studentCount?: number;
+
   reviews?: Review[];
   createdAt?: string;
 }
@@ -55,15 +58,9 @@ export interface College {
 export interface CollegeFilters {
   search?: string;
   location?: string;
-  state?: string;
   minFees?: number;
   maxFees?: number;
   course?: string;
-  ownershipType?: string;
-  exam?: string;
-  maxNirfRank?: number;
-  minAvgPackage?: number;
-  minPlacementPercentage?: number;
   page?: number;
   limit?: number;
 }
