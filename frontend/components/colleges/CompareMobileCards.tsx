@@ -55,9 +55,6 @@ export default function CompareMobileCards({ colleges }: CompareMobileCardsProps
   const bestPlacement = getBestCollegeIds(colleges, "placement");
   const bestRating = getBestCollegeIds(colleges, "rating");
   const bestCourses = getBestCollegeIds(colleges, "courseCount");
-  const bestNirf = getBestCollegeIds(colleges, "nirfRank");
-  const bestAvgPackage = getBestCollegeIds(colleges, "avgPackage");
-  const bestHighestPackage = getBestCollegeIds(colleges, "highestPackage");
 
   return (
     <div className="space-y-4 lg:hidden">
@@ -95,40 +92,22 @@ export default function CompareMobileCards({ colleges }: CompareMobileCardsProps
           values={colleges.map((c) => ({ id: c.id, text: c.location }))}
         />
         <MetricRow
-          label="NIRF Rank"
-          icon={<Trophy className="h-3.5 w-3.5 text-amber-500" />}
-          bestIds={bestNirf}
-          values={colleges.map((c) => ({ id: c.id, text: (c.nirfRank || c.ranking) ? `#${c.nirfRank || c.ranking}` : "—" }))}
-        />
-        <MetricRow
-          label="Rating"
-          icon={<Star className="h-3.5 w-3.5" />}
-          bestIds={bestRating}
-          values={colleges.map((c) => ({ id: c.id, text: (c.careers360Rating || c.rating || 0).toFixed(1) }))}
-        />
-        <MetricRow
           label="Fees / yr"
           icon={<IndianRupee className="h-3.5 w-3.5" />}
           bestIds={bestFees}
           values={colleges.map((c) => ({ id: c.id, text: formatFees(c.fees) }))}
         />
         <MetricRow
-          label="Avg Package"
-          icon={<IndianRupee className="h-3.5 w-3.5 text-blue-500" />}
-          bestIds={bestAvgPackage}
-          values={colleges.map((c) => ({ id: c.id, text: c.avgPackage ? formatFees(c.avgPackage) : "—" }))}
-        />
-        <MetricRow
-          label="Highest Package"
-          icon={<IndianRupee className="h-3.5 w-3.5 text-emerald-500" />}
-          bestIds={bestHighestPackage}
-          values={colleges.map((c) => ({ id: c.id, text: c.highestPackage ? formatFees(c.highestPackage) : "—" }))}
-        />
-        <MetricRow
           label="Placement"
           icon={<TrendingUp className="h-3.5 w-3.5" />}
           bestIds={bestPlacement}
-          values={colleges.map((c) => ({ id: c.id, text: `${c.placementPercentage || c.placement || 0}%` }))}
+          values={colleges.map((c) => ({ id: c.id, text: `${c.placement}%` }))}
+        />
+        <MetricRow
+          label="Rating"
+          icon={<Star className="h-3.5 w-3.5" />}
+          bestIds={bestRating}
+          values={colleges.map((c) => ({ id: c.id, text: c.rating.toFixed(1) }))}
         />
         <div className="pt-3">
           <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">

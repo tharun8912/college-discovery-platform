@@ -55,9 +55,6 @@ export default function CompareTable({ colleges }: CompareTableProps) {
   const bestPlacement = getBestCollegeIds(colleges, "placement");
   const bestRating = getBestCollegeIds(colleges, "rating");
   const bestCourses = getBestCollegeIds(colleges, "courseCount");
-  const bestNirf = getBestCollegeIds(colleges, "nirfRank");
-  const bestAvgPackage = getBestCollegeIds(colleges, "avgPackage");
-  const bestHighestPackage = getBestCollegeIds(colleges, "highestPackage");
 
   const metrics: {
     key: string;
@@ -74,46 +71,25 @@ export default function CompareTable({ colleges }: CompareTableProps) {
       render: (c) => c.location,
     },
     {
-      key: "nirfRank",
-      label: "NIRF Rank",
-      icon: <Trophy className="h-4 w-4 text-amber-500" />,
-      bestIds: bestNirf,
-      render: (c) => (c.nirfRank || c.ranking) ? `#${c.nirfRank || c.ranking}` : "—",
-    },
-    {
-      key: "rating",
-      label: "Rating (Out of 5)",
-      icon: <Star className="h-4 w-4 fill-amber-400 text-amber-400" />,
-      bestIds: bestRating,
-      render: (c) => (c.careers360Rating || c.rating || 0).toFixed(1),
-    },
-    {
       key: "fees",
-      label: "Annual Fees",
-      icon: <IndianRupee className="h-4 w-4 text-red-500" />,
+      label: "Annual fees",
+      icon: <IndianRupee className="h-4 w-4 text-emerald-600" />,
       bestIds: bestFees,
       render: (c) => formatFees(c.fees),
     },
     {
-      key: "avgPackage",
-      label: "Avg Package",
-      icon: <IndianRupee className="h-4 w-4 text-blue-500" />,
-      bestIds: bestAvgPackage,
-      render: (c) => c.avgPackage ? formatFees(c.avgPackage) : "—",
-    },
-    {
-      key: "highestPackage",
-      label: "Highest Package",
-      icon: <IndianRupee className="h-4 w-4 text-emerald-500" />,
-      bestIds: bestHighestPackage,
-      render: (c) => c.highestPackage ? formatFees(c.highestPackage) : "—",
-    },
-    {
       key: "placement",
-      label: "Placement %",
-      icon: <TrendingUp className="h-4 w-4 text-emerald-600" />,
+      label: "Placement",
+      icon: <TrendingUp className="h-4 w-4 text-sky-600" />,
       bestIds: bestPlacement,
-      render: (c) => `${c.placementPercentage || c.placement || 0}%`,
+      render: (c) => `${c.placement}%`,
+    },
+    {
+      key: "rating",
+      label: "Rating",
+      icon: <Star className="h-4 w-4 fill-amber-400 text-amber-400" />,
+      bestIds: bestRating,
+      render: (c) => c.rating.toFixed(1),
     },
     {
       key: "courses",

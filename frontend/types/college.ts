@@ -11,46 +11,22 @@ export interface College {
   id: number;
   name: string;
   slug?: string;
-  shortName?: string | null;
   location: string;
-  state?: string | null;
-  nirfRank?: number | null;
-  careers360Rating?: number | null;
   fees: number;
-  avgPackage?: number | null;
-  highestPackage?: number | null;
-  placementPercentage?: number | null;
-  courses?: string[];
-  examsAccepted?: string[];
-  ownershipType?: string | null;
-  establishedYear?: number | null;
-  accreditation?: string | null;
-  featured?: boolean;
-  description?: string | null;
-  detailedOverview?: string | null;
-  admissionProcess?: string | null;
-  eligibility?: string | null;
-  facilities?: string[];
-  recruiters?: string[];
-  rankings?: any;
-  images?: any;
+  rating: number;
+  placement: number;
   logo?: string | null;
-  campusSize?: string | null;
-  facultyCount?: number | null;
-  studentCount?: number | null;
-  officialWebsite?: string | null;
-  
-  // Legacy fields
-  rating?: number | null;
-  placement?: number | null;
   banner?: string | null;
   image?: string | null;
   campusImages?: string[];
+  description?: string | null;
   website?: string | null;
+  courses?: string[];
+  recruiters?: string[];
   ranking?: number | null;
+  featured?: boolean;
   acceptedExams?: string[];
   cutoffRank?: number | null;
-
   reviews?: Review[];
   createdAt?: string;
 }

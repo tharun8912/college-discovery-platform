@@ -99,17 +99,17 @@ export default function CollegeCard({
           className="card-shine pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100"
         />
 
-        {college.nirfRank != null && (
+        {college.ranking != null && (
           <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-lg bg-[#1e3a5f]/90 px-2 py-1 text-xs font-bold text-white shadow backdrop-blur-sm">
             <Trophy className="h-3 w-3 text-amber-300" />
-            #{college.nirfRank} NIRF
+            #{college.ranking} NIRF
           </span>
         )}
 
         <div className="absolute right-3 top-3 flex items-center gap-1.5">
           <span className="inline-flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 text-xs font-bold text-amber-600 shadow">
             <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            {(college.careers360Rating || college.rating || 0).toFixed(1)}
+            {college.rating.toFixed(1)}
           </span>
           <button
             type="button"
@@ -138,39 +138,28 @@ export default function CollegeCard({
         </div>
 
         <div className="absolute bottom-3 right-3 flex flex-wrap justify-end gap-1.5">
-          {(college.placementPercentage || college.placement) != null && (
-            <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-500/95 px-2 py-1 text-xs font-semibold text-white shadow">
-              <TrendingUp className="h-3 w-3" />
-              {college.placementPercentage || college.placement}% placed
-            </span>
-          )}
-          {college.avgPackage && (
-            <span className="inline-flex items-center gap-1 rounded-lg bg-blue-500/95 px-2 py-1 text-xs font-semibold text-white shadow">
-              <IndianRupee className="h-3 w-3" />
-              {formatFees(college.avgPackage)} avg
-            </span>
-          )}
+          <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-500/95 px-2 py-1 text-xs font-semibold text-white shadow">
+            <TrendingUp className="h-3 w-3" />
+            {college.placement}% placed
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 text-xs font-semibold text-slate-800 shadow">
+            <IndianRupee className="h-3 w-3 text-emerald-600" />
+            {formatFees(college.fees)}/yr
+          </span>
         </div>
       </div>
 
       <div className="flex flex-1 flex-col p-4">
         <h2 className="line-clamp-2 text-base font-semibold leading-snug text-slate-900 transition-colors group-hover:text-[#ff6b35]">
-          <Link href={`/colleges/${college.slug || college.id}`} className="hover:underline">
+          <Link href={`/colleges/${college.id}`} className="hover:underline">
             {college.name}
           </Link>
         </h2>
 
         <p className="mt-1.5 flex items-center gap-1 text-sm text-slate-500">
           <MapPin className="h-3.5 w-3.5 shrink-0 text-[#ff6b35]" />
-          {college.location}{college.state ? `, ${college.state}` : ''}
+          {college.location}
         </p>
-
-        <div className="mt-2 flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 rounded-lg bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-800 shadow-sm border border-slate-100">
-              <IndianRupee className="h-3 w-3 text-[#ff6b35]" />
-              {formatFees(college.fees)}/yr
-            </span>
-        </div>
 
         {courses.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">

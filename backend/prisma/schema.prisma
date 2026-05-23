@@ -20,52 +20,28 @@ model User {
 }
 
 model College {
-  id                  Int            @id @default(autoincrement())
-  name                String
-  slug                String         @unique
-  shortName           String?
-  location            String
-  state               String?
-  nirfRank            Int?
-  careers360Rating    Float?
-  fees                Int
-  avgPackage          Float?
-  highestPackage      Float?
-  placementPercentage Float?
-  courses             String[]       @default([])
-  examsAccepted       String[]       @default([])
-  ownershipType       String?
-  establishedYear     Int?
-  accreditation       String?
-  featured            Boolean        @default(false)
-  description         String?
-  detailedOverview    String?
-  admissionProcess    String?
-  eligibility         String?
-  facilities          String[]       @default([])
-  recruiters          String[]       @default([])
-  rankings            Json?
-  images              Json?
-  logo                String?
-  campusSize          String?
-  facultyCount        Int?
-  studentCount        Int?
-  officialWebsite     String?
-  
-  // Legacy fields mapped/kept for compatibility if needed
-  rating              Float?
-  placement           Float?
-  banner              String?
-  image               String?
-  campusImages        String[]       @default([])
-  website             String?
-  ranking             Int?
-  acceptedExams       String[]       @default([])
-  cutoffRank          Int?
-
-  createdAt           DateTime       @default(now())
-  reviews             Review[]
-  savedBy             SavedCollege[]
+  id             Int            @id @default(autoincrement())
+  name           String
+  slug           String         @unique
+  location       String
+  fees           Int
+  rating         Float
+  placement      Float
+  logo           String?
+  banner         String?
+  image          String?
+  campusImages   String[]       @default([])
+  description    String?
+  website        String?
+  courses        String[]       @default([])
+  recruiters     String[]       @default([])
+  ranking        Int?
+  featured       Boolean        @default(false)
+  acceptedExams  String[]       @default([])
+  cutoffRank     Int?
+  createdAt      DateTime       @default(now())
+  reviews        Review[]
+  savedBy        SavedCollege[]
 }
 
 model Review {
