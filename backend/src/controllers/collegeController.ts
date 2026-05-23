@@ -13,8 +13,21 @@ const parseNumber = (value: unknown): number | undefined => {
 };
 
 function buildWhere(req: Request): Prisma.CollegeWhereInput {
-  const { search, location, minFees, maxFees, course, featured, minPlacement } =
-    req.query;
+  const {
+    search,
+    location,
+    state,
+    minFees,
+    maxFees,
+    course,
+    featured,
+    minPlacement,
+    minPlacementPercentage,
+    minAvgPackage,
+    maxNirfRank,
+    ownershipType,
+    exam,
+  } = req.query;
 
   const where: Prisma.CollegeWhereInput = {};
 
@@ -22,7 +35,9 @@ function buildWhere(req: Request): Prisma.CollegeWhereInput {
     const query = search.trim();
     where.OR = [
       { name: { contains: query, mode: "insensitive" } },
+      { shortName: { contains: query, mode: "insensitive" } },
       { location: { contains: query, mode: "insensitive" } },
+      { state: { contains: query, mode: "insensitive" } },
     ];
   }
 
@@ -30,8 +45,20 @@ function buildWhere(req: Request): Prisma.CollegeWhereInput {
     where.location = { equals: location.trim(), mode: "insensitive" };
   }
 
+  if (typeof state === "string" && state.trim() && state !== "all") {
+    where.state = { equals: state.trim(), mode: "insensitive" };
+  }
+
   if (typeof course === "string" && course.trim() && course !== "all") {
     where.courses = { has: course.trim() };
+  }
+
+  if (typeof ownershipType === "string" && ownershipType.trim() && ownershipType !== "all") {
+    where.ownershipType = { equals: ownershipType.trim(), mode: "insensitive" };
+  }
+
+  if (typeof exam === "string" && exam.trim() && exam !== "all") {
+    where.examsAccepted = { has: exam.trim() };
   }
 
   if (featured === "true") {
@@ -40,7 +67,9 @@ function buildWhere(req: Request): Prisma.CollegeWhereInput {
 
   const min = parseNumber(minFees);
   const max = parseNumber(maxFees);
-  const minPlace = parseNumber(minPlacement);
+  const minPlace = parseNumber(minPlacement) ?? parseNumber(minPlacementPercentage);
+  const minPkg = parseNumber(minAvgPackage);
+  const maxNirf = parseNumber(maxNirfRank);
 
   if (min !== undefined || max !== undefined) {
     where.fees = {};
@@ -53,7 +82,19 @@ function buildWhere(req: Request): Prisma.CollegeWhereInput {
   }
 
   if (minPlace !== undefined) {
-    where.placement = { gte: minPlace };
+    where.OR = [
+      ...(where.OR || []),
+      { placement: { gte: minPlace } },
+      { placementPercentage: { gte: minPlace } },
+    ];
+  }
+
+  if (minPkg !== undefined) {
+    where.avgPackage = { gte: minPkg };
+  }
+
+  if (maxNirf !== undefined) {
+    where.nirfRank = { lte: maxNirf };
   }
 
   return where;

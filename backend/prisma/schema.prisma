@@ -20,28 +20,49 @@ model User {
 }
 
 model College {
-  id             Int            @id @default(autoincrement())
-  name           String
-  slug           String         @unique
-  location       String
-  fees           Int
-  rating         Float
-  placement      Float
-  logo           String?
-  banner         String?
-  image          String?
-  campusImages   String[]       @default([])
-  description    String?
-  website        String?
-  courses        String[]       @default([])
-  recruiters     String[]       @default([])
-  ranking        Int?
-  featured       Boolean        @default(false)
-  acceptedExams  String[]       @default([])
-  cutoffRank     Int?
-  createdAt      DateTime       @default(now())
-  reviews        Review[]
-  savedBy        SavedCollege[]
+  id                  Int            @id @default(autoincrement())
+  name                String
+  slug                String         @unique
+  shortName           String         @default("")
+  location            String         // City name
+  state               String         @default("")
+  fees                Int            // Annual fee in INR
+  rating              Float          @default(0.0) // Backwards compatible rating
+  careers360Rating    Float          @default(0.0) // Rating out of 5.0
+  placement           Float          @default(0.0) // Backwards compatible placement rate
+  placementPercentage Float          @default(0.0) // Placement rate percentage
+  avgPackage          Float          @default(0.0) // Average Package in LPA
+  highestPackage      Float          @default(0.0) // Highest Package in LPA
+  logo                String?
+  banner              String?
+  image               String?
+  campusImages        String[]       @default([])
+  description         String?
+  detailedOverview    String         @default("")
+  admissionProcess    String         @default("")
+  eligibility         String         @default("")
+  website             String?        // Backwards compatible website
+  officialWebsite     String         @default("")
+  courses             String[]       @default([])
+  acceptedExams       String[]       @default([]) // Backwards compatible accepted exams
+  examsAccepted       String[]       @default([]) // Modern exams list
+  cutoffRank          Int?           // General cutoff rank
+  recruiters          String[]       @default([])
+  ranking             Int?           // Backwards compatible ranking
+  nirfRank            Int?           // National Institutional Ranking Framework Rank
+  ownershipType       String         @default("") // Public / Private / Government / PPP
+  establishedYear     Int            @default(0)
+  accreditation       String         @default("") // NAAC A++, NBA, Autonomous, etc.
+  featured            Boolean        @default(false)
+  facilities          String[]       @default([]) // Hostel, Library, etc.
+  rankings            String[]       @default([]) // Extra rankings achievements
+  images              String[]       @default([]) // List of different campus/building/classroom/placement images
+  campusSize          String         @default("") // e.g. "110 Acres"
+  facultyCount        Int            @default(0)
+  studentCount        Int            @default(0)
+  createdAt           DateTime       @default(now())
+  reviews             Review[]
+  savedBy             SavedCollege[]
 }
 
 model Review {

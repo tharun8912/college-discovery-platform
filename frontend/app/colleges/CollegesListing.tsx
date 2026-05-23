@@ -17,7 +17,15 @@ export default function CollegesListing() {
   const [filters, setFilters] = useState<CollegeFilters>({
     search: searchParams.get("search") ?? "",
     location: "all",
+    state: "all",
     course: "all",
+    ownershipType: "all",
+    exam: "all",
+    minFees: undefined,
+    maxFees: undefined,
+    maxNirfRank: undefined,
+    minAvgPackage: undefined,
+    minPlacementPercentage: undefined,
     page: 1,
     limit: 12,
   });
@@ -59,9 +67,11 @@ export default function CollegesListing() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 pb-28 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">All Colleges</h1>
-        <p className="mt-1 text-slate-500">
-          Search and filter by location, fees, and course
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+          Discover Top Engineering Colleges
+        </h1>
+        <p className="mt-2 text-sm text-slate-500 sm:text-base">
+          Search and compare rankings, fees, packages, and eligibility criteria for premier institutions.
         </p>
       </div>
 
