@@ -41,11 +41,11 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  getFeaturedColleges()
-    .then((data) => setFeatured(data.data ?? data))
-    .catch(() => setFeatured([]))
-    .finally(() => setLoading(false));
-}, []);
+    getFeaturedColleges()
+      .then(setFeatured)
+      .catch(() => setFeatured([]))
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <>
       <section className="relative overflow-hidden bg-white border-b border-slate-200">

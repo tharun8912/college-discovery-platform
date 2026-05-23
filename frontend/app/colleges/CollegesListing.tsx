@@ -42,7 +42,9 @@ export default function CollegesListing() {
       setColleges(res.data);
       setTotalPages(res.pagination.totalPages);
     } catch {
-      setError("Could not load colleges. Ensure backend is running on port 5000.");
+      setError(
+        "Could not load colleges. Check your connection or try again later."
+      );
       setColleges([]);
     } finally {
       setLoading(false);

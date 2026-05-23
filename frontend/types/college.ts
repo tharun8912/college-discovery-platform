@@ -10,7 +10,7 @@ export interface Review {
 export interface College {
   id: number;
   name: string;
-  slug: string;
+  slug?: string;
   location: string;
   fees: number;
   rating: number;
