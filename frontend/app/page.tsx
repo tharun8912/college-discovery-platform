@@ -51,10 +51,17 @@ export default function HomePage() {
                 className="h-[220px] animate-pulse rounded-2xl border border-slate-200 bg-slate-50"
               />
             ))
-          : featured.map((c) => <CollegeCard key={c.id} college={c} variant="featured" />)}
+          : featured.map((c) => (
+              <CollegeCard
+                key={c.id}
+                college={c}
+                variant="featured"
+              />
+            ))}
       </div>
     </div>
   );
 }
+
 
 
