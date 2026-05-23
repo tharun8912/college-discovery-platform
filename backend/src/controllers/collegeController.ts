@@ -1,195 +1,134 @@
 import { Request, Response } from "express";
-import type { Prisma } from "@prisma/client";
-import prisma from "../lib/prisma";
 
-const parseNumber = (value: unknown): number | undefined => {
-  if (value === undefined || value === null || value === "") {
-    return undefined;
-  }
+const colleges = [
+  {
+    id: 1,
+    name: "IIIT Hyderabad",
+    location: "Hyderabad",
+    fees: 350000,
+    rating: 4.9,
+    placement: 98,
+    featured: true,
+    image:
+      "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&q=80",
+    logo:
+      "https://upload.wikimedia.org/wikipedia/en/8/8d/IIIT_Hyderabad_Logo.png",
+    website: "https://www.iiit.ac.in",
+    description: "Premier research engineering institute.",
+    courses: ["CSE", "ECE", "AI"],
+    reviews: [],
+  },
+  {
+    id: 2,
+    name: "BITS Pilani Hyderabad",
+    location: "Hyderabad",
+    fees: 420000,
+    rating: 4.8,
+    placement: 96,
+    featured: true,
+    image:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80",
+    logo:
+      "https://upload.wikimedia.org/wikipedia/en/d/d3/BITS_Pilani-Logo.svg",
+    website: "https://www.bits-pilani.ac.in",
+    description: "Top private engineering institute.",
+    courses: ["CSE", "ECE", "EEE"],
+    reviews: [],
+  },
+  {
+    id: 3,
+    name: "VNR VJIET",
+    location: "Hyderabad",
+    fees: 140000,
+    rating: 4.5,
+    placement: 92,
+    featured: true,
+    image:
+      "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
+    logo:
+      "https://vnrvjiet.ac.in/assets/images/logo.png",
+    website: "https://vnrvjiet.ac.in",
+    description: "Top autonomous engineering college.",
+    courses: ["CSE", "IT", "ECE"],
+    reviews: [],
+  },
+];
 
-  const num = Number(value);
-
-  return Number.isFinite(num) ? num : undefined;
+export const getColleges = async (
+  _req: Request,
+  res: Response
+) => {
+  res.json({
+    data: colleges,
+    pagination: {
+      page: 1,
+      limit: 12,
+      total: colleges.length,
+      totalPages: 1,
+    },
+  });
 };
 
-function buildWhere(req: Request): Prisma.CollegeWhereInput {
-  const { search, location, minFees, maxFees, course, featured, minPlacement } =
-    req.query;
-
-  const where: Prisma.CollegeWhereInput = {};
-
-  if (typeof search === "string" && search.trim()) {
-    const query = search.trim();
-    where.OR = [
-      { name: { contains: query, mode: "insensitive" } },
-      { location: { contains: query, mode: "insensitive" } },
-    ];
-  }
-
-  if (typeof location === "string" && location.trim() && location !== "all") {
-    where.location = { equals: location.trim(), mode: "insensitive" };
-  }
-
-  if (typeof course === "string" && course.trim() && course !== "all") {
-    where.courses = { has: course.trim() };
-  }
-
-  if (featured === "true") {
-    where.featured = true;
-  }
-
-  const min = parseNumber(minFees);
-  const max = parseNumber(maxFees);
-  const minPlace = parseNumber(minPlacement);
-
-  if (min !== undefined || max !== undefined) {
-    where.fees = {};
-    if (min !== undefined) {
-      where.fees.gte = min;
-    }
-    if (max !== undefined) {
-      where.fees.lte = max;
-    }
-  }
-
-  if (minPlace !== undefined) {
-    where.placement = { gte: minPlace };
-  }
-
-  return where;
-}
-
-export const getColleges = async (req: Request, res: Response) => {
-  try {
-    const pageNum = Math.max(1, parseNumber(req.query.page) ?? 1);
-    const limitNum = Math.min(50, Math.max(1, parseNumber(req.query.limit) ?? 12));
-    const where = buildWhere(req);
-
-    const [total, data] = await Promise.all([
-      prisma.college.count({ where }),
-      prisma.college.findMany({
-        where,
-        orderBy: [{ featured: "desc" }, { rating: "desc" }, { name: "asc" }],
-        skip: (pageNum - 1) * limitNum,
-        take: limitNum,
-      }),
-    ]);
-
-    res.json({
-      data,
-      pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum) || 1,
-      },
-    });
-  } catch (error) {
-    console.error("getColleges error:", error);
-    res.status(500).json({ message: "Failed to fetch colleges" });
-  }
+export const getFeaturedColleges = async (
+  _req: Request,
+  res: Response
+) => {
+  res.json(colleges.filter((c) => c.featured));
 };
 
-export const getFeaturedColleges = async (_req: Request, res: Response) => {
-  try {
-    const featured = await prisma.college.findMany({
-      where: { featured: true },
-      orderBy: [{ rating: "desc" }, { name: "asc" }],
-      take: 6,
-    });
+export const getCollegeById = async (
+  req: Request,
+  res: Response
+) => {
+  const id = Number(req.params.id);
 
-    res.json(featured);
-  } catch (error) {
-    console.error("getFeaturedColleges error:", error);
-    res.status(500).json({ message: "Failed to fetch featured colleges" });
+  const college = colleges.find((c) => c.id === id);
+
+  if (!college) {
+    return res.status(404).json({
+      message: "College not found",
+    });
   }
+
+  res.json(college);
 };
 
-export const getCollegeById = async (req: Request, res: Response) => {
-  try {
-    const id = Number(req.params.id);
+export const compareColleges = async (
+  req: Request,
+  res: Response
+) => {
+  const ids =
+    typeof req.query.ids === "string"
+      ? req.query.ids
+          .split(",")
+          .map(Number)
+      : [];
 
-    if (!Number.isFinite(id)) {
-      return res.status(400).json({ message: "Invalid college id" });
-    }
+  const compared = colleges.filter((c) =>
+    ids.includes(c.id)
+  );
 
-    const college = await prisma.college.findUnique({
-      where: { id },
-      include: {
-        reviews: { orderBy: { createdAt: "desc" } },
-      },
-    });
-
-    if (!college) {
-      return res.status(404).json({ message: "College not found" });
-    }
-
-    res.json(college);
-  } catch (error) {
-    console.error("getCollegeById error:", error);
-    res.status(500).json({ message: "Failed to fetch college" });
-  }
+  res.json(compared);
 };
 
-export const compareColleges = async (req: Request, res: Response) => {
-  try {
-    const idsParam = req.query.ids;
+export const getLocations = async (
+  _req: Request,
+  res: Response
+) => {
+  const locations = [
+    ...new Set(colleges.map((c) => c.location)),
+  ];
 
-    if (typeof idsParam !== "string" || !idsParam.trim()) {
-      return res.status(400).json({ message: "Provide ids query param" });
-    }
-
-    const ids = idsParam
-      .split(",")
-      .map((id) => Number(id.trim()))
-      .filter((id) => Number.isFinite(id));
-
-    if (ids.length === 0) {
-      return res.json([]);
-    }
-
-    const compared = await prisma.college.findMany({
-      where: { id: { in: ids } },
-    });
-
-    const order = new Map(ids.map((id, index) => [id, index]));
-    compared.sort(
-      (a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0)
-    );
-
-    res.json(compared);
-  } catch (error) {
-    console.error("compareColleges error:", error);
-    res.status(500).json({ message: "Failed to compare colleges" });
-  }
+  res.json(locations);
 };
 
-export const getLocations = async (_req: Request, res: Response) => {
-  try {
-    const rows = await prisma.college.findMany({
-      select: { location: true },
-      distinct: ["location"],
-      orderBy: { location: "asc" },
-    });
+export const getCourses = async (
+  _req: Request,
+  res: Response
+) => {
+  const courses = [
+    ...new Set(colleges.flatMap((c) => c.courses)),
+  ];
 
-    res.json(rows.map((r) => r.location));
-  } catch (error) {
-    console.error("getLocations error:", error);
-    res.status(500).json({ message: "Failed to fetch locations" });
-  }
-};
-
-export const getCourses = async (_req: Request, res: Response) => {
-  try {
-    const rows = await prisma.college.findMany({
-      select: { courses: true },
-    });
-
-    const courses = [...new Set(rows.flatMap((r) => r.courses))].sort();
-
-    res.json(courses);
-  } catch (error) {
-    console.error("getCourses error:", error);
-    res.status(500).json({ message: "Failed to fetch courses" });
-  }
+  res.json(courses);
 };
