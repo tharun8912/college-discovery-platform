@@ -109,7 +109,7 @@ export default function CollegeCard({
         <div className="absolute right-3 top-3 flex items-center gap-1.5">
           <span className="inline-flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 text-xs font-bold text-amber-600 shadow">
             <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            {(college.rating ?? 0).toFixed(1)}
+            (college.rating ?? college.careers360Rating ?? 0).toFixed(1)
           </span>
           <button
             type="button"
@@ -140,7 +140,7 @@ export default function CollegeCard({
         <div className="absolute bottom-3 right-3 flex flex-wrap justify-end gap-1.5">
           <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-500/95 px-2 py-1 text-xs font-semibold text-white shadow">
             <TrendingUp className="h-3 w-3" />
-            {college.placement}% placed
+            {college.placement ?? college.placementPercentage ?? 0}% placed
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 text-xs font-semibold text-slate-800 shadow">
             <IndianRupee className="h-3 w-3 text-emerald-600" />
