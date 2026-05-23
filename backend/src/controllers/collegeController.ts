@@ -36,7 +36,7 @@ interface CollegeQuery {
   sortBy?: "fees" | "placement" | "rating" | "nirfRank" | "name";
   sortOrder?: SortOrder;
   page?: number;
-  ?: number;
+  limit?: number;
 }
 
 function toNumber(value: unknown): number | undefined {
