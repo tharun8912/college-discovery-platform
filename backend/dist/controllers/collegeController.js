@@ -181,9 +181,16 @@ function getFilteredColleges(query) {
     const paginated = paginate(sorted.map(formatCollege), (_a = filters.page) !== null && _a !== void 0 ? _a : 1, (_b = filters.limit) !== null && _b !== void 0 ? _b : 12);
     return { filters, paginated };
 }
-const getColleges = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { paginated } = getFilteredColleges(req.query);
-    res.json(paginated);
+const getColleges = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.json({
+        data: colleges_1.colleges.map(formatCollege),
+        pagination: {
+            page: 1,
+            limit: colleges_1.colleges.length,
+            total: colleges_1.colleges.length,
+            totalPages: 1,
+        },
+    });
 });
 exports.getColleges = getColleges;
 const getFeaturedColleges = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
