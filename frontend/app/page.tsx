@@ -1,128 +1,171 @@
-"use client";
+useEffect(() => {
+  setColleges([
+    {
+      id: 1,
+      name: "IIIT Hyderabad",
+      location: "Hyderabad",
+      fees: 350000,
+      rating: 4.9,
+      placement: 98,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
+      ],
+      logo:
+        "https://upload.wikimedia.org/wikipedia/en/8/8d/IIIT_Hyderabad_Logo.png",
+      description: "Premier research engineering institute.",
+      courses: ["CSE", "ECE", "AI"],
+      reviews: [],
+    },
+    {
+      id: 2,
+      name: "BITS Pilani Hyderabad",
+      location: "Hyderabad",
+      fees: 420000,
+      rating: 4.8,
+      placement: 96,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80",
+      ],
+      logo:
+        "https://upload.wikimedia.org/wikipedia/en/d/d3/BITS_Pilani-Logo.svg",
+      description: "Top private engineering institute.",
+      courses: ["CSE", "ECE", "EEE"],
+      reviews: [],
+    },
+    {
+      id: 3,
+      name: "CBIT",
+      location: "Hyderabad",
+      fees: 140000,
+      rating: 4.5,
+      placement: 92,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&q=80",
+      ],
+      logo:
+        "https://www.cbit.ac.in/wp-content/uploads/2019/01/cbit-logo.png",
+      description: "Top autonomous engineering college.",
+      courses: ["CSE", "IT", "ECE"],
+      reviews: [],
+    },
+    {
+      id: 4,
+      name: "VNR VJIET",
+      location: "Hyderabad",
+      fees: 145000,
+      rating: 4.6,
+      placement: 93,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&q=80",
+      ],
+      logo: "https://vnrvjiet.ac.in/assets/images/logo.png",
+      description: "Excellent placements and autonomous institution.",
+      courses: ["CSE", "AI", "IT", "ECE"],
+      reviews: [],
+    },
+    {
+      id: 5,
+      name: "GRIET",
+      location: "Hyderabad",
+      fees: 135000,
+      rating: 4.4,
+      placement: 90,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80",
+      ],
+      logo: "https://www.griet.ac.in/images/logo.png",
+      description: "Strong placement-oriented engineering college.",
+      courses: ["CSE", "AI & DS", "IT"],
+      reviews: [],
+    },
+    {
+      id: 6,
+      name: "MGIT",
+      location: "Hyderabad",
+      fees: 120000,
+      rating: 4.3,
+      placement: 85,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+      ],
+      logo: "https://mgit.ac.in/images/logo.png",
+      description: "Popular autonomous engineering institution.",
+      courses: ["CSE", "ECE", "Mechanical"],
+      reviews: [],
+    },
+    {
+      id: 7,
+      name: "Vasavi College of Engineering",
+      location: "Hyderabad",
+      fees: 130000,
+      rating: 4.5,
+      placement: 89,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80",
+      ],
+      logo: "https://www.vce.ac.in/img/vlogo.png",
+      description: "Well-established autonomous engineering institution.",
+      courses: ["CSE", "ECE", "EEE"],
+      reviews: [],
+    },
+    {
+      id: 8,
+      name: "Osmania University",
+      location: "Hyderabad",
+      fees: 60000,
+      rating: 4.4,
+      placement: 82,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
+      ],
+      logo:
+        "https://upload.wikimedia.org/wikipedia/en/0/0b/Osmania_University.png",
+      description: "Historic public state university.",
+      courses: ["CSE", "Civil", "Mechanical"],
+      reviews: [],
+    },
+    {
+      id: 9,
+      name: "GNITS",
+      location: "Hyderabad",
+      fees: 125000,
+      rating: 4.3,
+      placement: 84,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=800&q=80",
+      ],
+      logo: "https://www.gnits.ac.in/images/logo.png",
+      description: "Top women's engineering college.",
+      courses: ["CSE", "IT", "ECE"],
+      reviews: [],
+    },
+    {
+      id: 10,
+      name: "Andhra University",
+      location: "Visakhapatnam",
+      fees: 80000,
+      rating: 4.4,
+      placement: 83,
+      featured: true,
+      images: [
+        "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80",
+      ],
+      logo:
+        "https://upload.wikimedia.org/wikipedia/en/0/0f/Andhra_University_Logo.png",
+      description: "Historic public university with strong academics.",
+      courses: ["CSE", "ECE", "Civil"],
+      reviews: [],
+    },
+  ]);
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { ArrowRight, Search, TrendingUp } from "lucide-react";
-import CollegeCard from "@/components/colleges/CollegeCard";
-import CompareBar from "@/components/colleges/CompareBar";
-import { getFeaturedColleges } from "@/services/collegeService";
-import type { College } from "@/types/college";
-import { CollegeCardSkeleton } from "@/components/ui/Skeleton";
-
-const trending = [
-  {
-    label: "CSE colleges Hyderabad",
-    href: "/colleges?course=CSE&location=Hyderabad",
-  },
-  {
-    label: "Under 1.5L fees",
-    href: "/colleges?maxFees=150000",
-  },
-  {
-    label: "IIIT Hyderabad",
-    href: "/colleges?search=IIIT",
-  },
-  {
-    label: "BITS Pilani",
-    href: "/colleges?search=BITS",
-  },
-  {
-    label: "EAMCET top colleges",
-    href: "/colleges?exam=EAMCET",
-  },
-  {
-    label: "High placement colleges",
-    href: "/colleges?minPlacement=85",
-  },
-];
-
-export default function HomePage() {
-  const [featured, setFeatured] = useState<College[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getFeaturedColleges()
-      .then(setFeatured)
-      .catch(() => setFeatured([]))
-      .finally(() => setLoading(false));
-  }, []);
-  return (
-    <>
-      <section className="relative overflow-hidden bg-white border-b border-slate-200">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#fff5f0_0%,_transparent_50%)]" />
-        <div className="relative mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
-          <div className="max-w-2xl animate-fade-in-up">
-            <span className="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#ff6b35]">
-              #1 College Discovery Platform
-            </span>
-            <h1 className="mt-4 text-4xl font-bold leading-tight text-[#1e3a5f] sm:text-5xl lg:text-6xl">
-              "Find the right college for your bright future"
-            </h1>
-            <p className="mt-4 text-lg text-slate-600">
-            Discover top colleges, compare placements & fees, predict admissions, and make smarter career decisions.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/colleges"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#ff6b35] px-6 py-3 font-semibold text-white shadow-lg shadow-orange-200 transition hover:bg-[#e85a28] hover:shadow-xl"
-              >
-                <Search className="h-5 w-5" />
-                Explore Colleges
-              </Link>
-              <Link
-                href="/predictor"
-                className="inline-flex items-center gap-2 rounded-xl border-2 border-[#1e3a5f] px-6 py-3 font-semibold text-[#1e3a5f] transition hover:bg-[#1e3a5f] hover:text-white"
-              >
-                Rank Predictor
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-        <div className="flex items-center gap-2 text-slate-800">
-          <TrendingUp className="h-5 w-5 text-[#ff6b35]" />
-          <h2 className="font-semibold">Trending searches</h2>
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2">
-        {trending.map((item) => (
-          <Link
-          key={item.label}
-          href={item.href}
-          className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 transition hover:border-[#ff6b35] hover:text-[#ff6b35] hover:shadow-sm"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-900">Featured colleges</h2>
-            <p className="mt-1 text-slate-500">Top-rated institutes students are exploring</p>
-          </div>
-          <Link
-            href="/colleges"
-            className="text-sm font-semibold text-[#ff6b35] hover:underline"
-          >
-            View all →
-          </Link>
-        </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {loading
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <CollegeCardSkeleton key={i} />
-              ))
-            : featured.map((college) => (
-                <CollegeCard key={college.id} college={college} variant="featured" />
-              ))}
-        </div>
-      </section>
-      <CompareBar />
-    </>
-  );
-}
+  setLoading(false);
+}, []);
