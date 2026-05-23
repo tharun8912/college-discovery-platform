@@ -1,5 +1,47 @@
-useEffect(() => {
-  setColleges([
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowRight, Search, TrendingUp } from "lucide-react";
+import CollegeCard from "@/components/colleges/CollegeCard";
+import CompareBar from "@/components/colleges/CompareBar";
+import { getFeaturedColleges } from "@/services/collegeService";
+import type { College } from "@/types/college";
+import { CollegeCardSkeleton } from "@/components/ui/Skeleton";
+
+const trending = [
+  {
+    label: "CSE colleges Hyderabad",
+    href: "/colleges?course=CSE&location=Hyderabad",
+  },
+  {
+    label: "Under 1.5L fees",
+    href: "/colleges?maxFees=150000",
+  },
+  {
+    label: "IIIT Hyderabad",
+    href: "/colleges?search=IIIT",
+  },
+  {
+    label: "BITS Pilani",
+    href: "/colleges?search=BITS",
+  },
+  {
+    label: "EAMCET top colleges",
+    href: "/colleges?exam=EAMCET",
+  },
+  {
+    label: "High placement colleges",
+    href: "/colleges?minPlacement=85",
+  },
+];
+
+export default function HomePage() {
+  const [featured, setFeatured] = useState<College[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+  setFeatured([
     {
       id: 1,
       name: "IIIT Hyderabad",
@@ -49,120 +91,6 @@ useEffect(() => {
         "https://www.cbit.ac.in/wp-content/uploads/2019/01/cbit-logo.png",
       description: "Top autonomous engineering college.",
       courses: ["CSE", "IT", "ECE"],
-      reviews: [],
-    },
-    {
-      id: 4,
-      name: "VNR VJIET",
-      location: "Hyderabad",
-      fees: 145000,
-      rating: 4.6,
-      placement: 93,
-      featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&q=80",
-      ],
-      logo: "https://vnrvjiet.ac.in/assets/images/logo.png",
-      description: "Excellent placements and autonomous institution.",
-      courses: ["CSE", "AI", "IT", "ECE"],
-      reviews: [],
-    },
-    {
-      id: 5,
-      name: "GRIET",
-      location: "Hyderabad",
-      fees: 135000,
-      rating: 4.4,
-      placement: 90,
-      featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80",
-      ],
-      logo: "https://www.griet.ac.in/images/logo.png",
-      description: "Strong placement-oriented engineering college.",
-      courses: ["CSE", "AI & DS", "IT"],
-      reviews: [],
-    },
-    {
-      id: 6,
-      name: "MGIT",
-      location: "Hyderabad",
-      fees: 120000,
-      rating: 4.3,
-      placement: 85,
-      featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
-      ],
-      logo: "https://mgit.ac.in/images/logo.png",
-      description: "Popular autonomous engineering institution.",
-      courses: ["CSE", "ECE", "Mechanical"],
-      reviews: [],
-    },
-    {
-      id: 7,
-      name: "Vasavi College of Engineering",
-      location: "Hyderabad",
-      fees: 130000,
-      rating: 4.5,
-      placement: 89,
-      featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80",
-      ],
-      logo: "https://www.vce.ac.in/img/vlogo.png",
-      description: "Well-established autonomous engineering institution.",
-      courses: ["CSE", "ECE", "EEE"],
-      reviews: [],
-    },
-    {
-      id: 8,
-      name: "Osmania University",
-      location: "Hyderabad",
-      fees: 60000,
-      rating: 4.4,
-      placement: 82,
-      featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
-      ],
-      logo:
-        "https://upload.wikimedia.org/wikipedia/en/0/0b/Osmania_University.png",
-      description: "Historic public state university.",
-      courses: ["CSE", "Civil", "Mechanical"],
-      reviews: [],
-    },
-    {
-      id: 9,
-      name: "GNITS",
-      location: "Hyderabad",
-      fees: 125000,
-      rating: 4.3,
-      placement: 84,
-      featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=800&q=80",
-      ],
-      logo: "https://www.gnits.ac.in/images/logo.png",
-      description: "Top women's engineering college.",
-      courses: ["CSE", "IT", "ECE"],
-      reviews: [],
-    },
-    {
-      id: 10,
-      name: "Andhra University",
-      location: "Visakhapatnam",
-      fees: 80000,
-      rating: 4.4,
-      placement: 83,
-      featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80",
-      ],
-      logo:
-        "https://upload.wikimedia.org/wikipedia/en/0/0f/Andhra_University_Logo.png",
-      description: "Historic public university with strong academics.",
-      courses: ["CSE", "ECE", "Civil"],
       reviews: [],
     },
   ]);
