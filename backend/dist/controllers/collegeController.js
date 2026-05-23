@@ -22,41 +22,27 @@ const parseNumber = (value) => {
     return Number.isFinite(num) ? num : undefined;
 };
 function buildWhere(req) {
-    var _a;
-    const { search, location, state, minFees, maxFees, course, featured, minPlacement, minPlacementPercentage, minAvgPackage, maxNirfRank, ownershipType, exam, } = req.query;
+    const { search, location, minFees, maxFees, course, featured, minPlacement } = req.query;
     const where = {};
     if (typeof search === "string" && search.trim()) {
         const query = search.trim();
         where.OR = [
             { name: { contains: query, mode: "insensitive" } },
-            { shortName: { contains: query, mode: "insensitive" } },
             { location: { contains: query, mode: "insensitive" } },
-            { state: { contains: query, mode: "insensitive" } },
         ];
     }
     if (typeof location === "string" && location.trim() && location !== "all") {
         where.location = { equals: location.trim(), mode: "insensitive" };
     }
-    if (typeof state === "string" && state.trim() && state !== "all") {
-        where.state = { equals: state.trim(), mode: "insensitive" };
-    }
     if (typeof course === "string" && course.trim() && course !== "all") {
         where.courses = { has: course.trim() };
-    }
-    if (typeof ownershipType === "string" && ownershipType.trim() && ownershipType !== "all") {
-        where.ownershipType = { equals: ownershipType.trim(), mode: "insensitive" };
-    }
-    if (typeof exam === "string" && exam.trim() && exam !== "all") {
-        where.examsAccepted = { has: exam.trim() };
     }
     if (featured === "true") {
         where.featured = true;
     }
     const min = parseNumber(minFees);
     const max = parseNumber(maxFees);
-    const minPlace = (_a = parseNumber(minPlacement)) !== null && _a !== void 0 ? _a : parseNumber(minPlacementPercentage);
-    const minPkg = parseNumber(minAvgPackage);
-    const maxNirf = parseNumber(maxNirfRank);
+    const minPlace = parseNumber(minPlacement);
     if (min !== undefined || max !== undefined) {
         where.fees = {};
         if (min !== undefined) {
@@ -67,17 +53,7 @@ function buildWhere(req) {
         }
     }
     if (minPlace !== undefined) {
-        where.OR = [
-            ...(where.OR || []),
-            { placement: { gte: minPlace } },
-            { placementPercentage: { gte: minPlace } },
-        ];
-    }
-    if (minPkg !== undefined) {
-        where.avgPackage = { gte: minPkg };
-    }
-    if (maxNirf !== undefined) {
-        where.nirfRank = { lte: maxNirf };
+        where.placement = { gte: minPlace };
     }
     return where;
 }
