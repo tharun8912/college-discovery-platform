@@ -4,15 +4,21 @@ export type CompareMetric = "fees" | "placement" | "rating" | "courseCount";
 
 export function metricValue(college: College, metric: CompareMetric): number {
   switch (metric) {
-    case "fees":
-      return college.fees;
-    case "placement":
-      return college.placement;
-    case "rating":
-      return college.rating;
-    case "courseCount":
-      return college.courses?.length ?? 0;
-  }
+  case "fees":
+    return college.fees ?? 0;
+
+  case "placement":
+    return college.placement ?? 0;
+
+  case "rating":
+    return college.rating ?? 0;
+
+  case "courseCount":
+    return (college.courses ?? []).length;
+
+  default:
+    return 0;
+}
 }
 
 /** Lower fees is better; higher placement, rating, course count is better. */
@@ -54,8 +60,7 @@ export function buildComparisonExport(colleges: College[]): string {
     lines.push(`■ ${c.name}`);
     lines.push(`  Location: ${c.location}`);
     lines.push(`  Fees: ${formatFees(c.fees)}/yr`);
-    lines.push(`  Placement: ${c.placement}%`);
-    lines.push(`  Rating: ${c.rating.toFixed(1)}`);
+    lines.push(`  Rating: ${(c.rating ?? 0).toFixed(1)}`);
     lines.push(`  Courses: ${(c.courses ?? []).join(", ") || "—"}`);
     lines.push("");
   }

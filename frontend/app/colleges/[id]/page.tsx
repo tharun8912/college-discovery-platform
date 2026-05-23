@@ -25,18 +25,15 @@ export default function CollegeDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toggle, isSelected } = useCompareStore();
+  const isInvalidId = !Number.isInteger(id) || id <= 0;
 
   useEffect(() => {
-    if (!Number.isInteger(id) || id <= 0) {
-      setError("Invalid college");
-      setLoading(false);
-      return;
-    }
+    if (isInvalidId) return;
     getCollegeById(id)
       .then(setCollege)
       .catch(() => setError("College not found"))
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, isInvalidId]);
 
   if (loading) {
     return (
@@ -48,7 +45,7 @@ export default function CollegeDetailPage() {
     );
   }
 
-  if (error || !college) {
+  if (isInvalidId || error || !college) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-16 text-center">
         <p className="text-red-600">{error}</p>
@@ -60,21 +57,22 @@ export default function CollegeDetailPage() {
   }
 
   const gallery = [
-    college.banner || college.image,
-    ...(college.campusImages ?? []),
+    college.banner || college.images?.[0] || college.logo,
+    ...(college.campusImages ?? college.images ?? []),
   ].filter(Boolean) as string[];
 
   const inCompare = isSelected(college.id);
+  const collegeRating = college.careers360Rating ?? college.rating ?? 0;
   const avgReview =
     college.reviews && college.reviews.length > 0
       ? college.reviews.reduce((s, r) => s + r.rating, 0) / college.reviews.length
-      : college.rating;
+      : collegeRating;
 
   return (
     <div className="bg-white">
       <div className="relative h-56 sm:h-72 lg:h-80">
         <CollegeImage
-          src={college.banner || college.image}
+          src={college.banner || college.images?.[0] || college.logo}
           alt={college.name}
           priority
           sizes="100vw"
@@ -134,8 +132,8 @@ export default function CollegeDetailPage() {
         <div className="mt-8 grid gap-4 sm:grid-cols-4">
           {[
             { label: "Annual fees", value: `₹${college.fees.toLocaleString("en-IN")}`, icon: IndianRupee },
-            { label: "Placement", value: `${college.placement}%`, icon: TrendingUp },
-            { label: "Rating", value: college.rating.toFixed(1), icon: Star },
+            { label: "Placement", value: `${college.placement ?? college.placementPercentage ?? 0}%`, icon: TrendingUp },
+            { label: "Rating", value: collegeRating.toFixed(1), icon: Star },
             { label: "Programs", value: `${college.courses?.length ?? 0}`, icon: BookOpen },
           ].map(({ label, value, icon: Icon }) => (
             <div
@@ -144,7 +142,9 @@ export default function CollegeDetailPage() {
             >
               <Icon className="mx-auto h-5 w-5 text-[#ff6b35]" />
               <p className="mt-2 text-xs text-slate-500">{label}</p>
-              <p className="text-lg font-bold text-slate-900">{value}</p>
+              <p className="text-lg font-bold text-slate-900">
+                {label === "Rating" ? collegeRating.toFixed(1) : value}
+              </p>
             </div>
           ))}
         </div>

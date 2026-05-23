@@ -7,36 +7,90 @@ export interface Review {
   createdAt: string;
 }
 
+export interface CollegeRankingItem {
+  source: string;
+  label: string;
+  rank: number;
+  year: number;
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 export interface College {
   id: number;
-  name: string;
   slug?: string;
+  name: string;
+  shortName?: string;
   location: string;
+  state?: string;
+  nirfRank?: number | null;
+  careers360Rating?: number;
   fees: number;
-  rating: number;
-  placement: number;
-  logo?: string | null;
-  banner?: string | null;
-  image?: string | null;
-  campusImages?: string[];
-  description?: string | null;
-  website?: string | null;
+  avgPackage?: number;
+  highestPackage?: number;
+  placementPercentage?: number;
   courses?: string[];
-  recruiters?: string[];
-  ranking?: number | null;
+  examsAccepted?: string[];
+  ownershipType?: "Government" | "Private" | "Deemed" | "Autonomous" | "Central Government";
+  establishedYear?: number;
+  accreditation?: string[];
   featured?: boolean;
-  acceptedExams?: string[];
-  cutoffRank?: number | null;
+  description?: string | null;
+  detailedOverview?: string | null;
+  admissionProcess?: string | null;
+  eligibility?: string | null;
+  facilities?: string[];
+  recruiters?: string[];
+  rankings?: CollegeRankingItem[];
+  images?: string[];
+  logo?: string | null;
+  campusSize?: string;
+  facultyCount?: number;
+  studentCount?: number;
+  officialWebsite?: string | null;
   reviews?: Review[];
+  hostelDetails?: string | null;
+  faq?: FAQItem[];
+  cutoffOverview?: string | null;
+
+  // Backward-compatible aliases used by the current UI
+  rating?: number;
+  placement?: number;
+  banner?: string | null;
+  website?: string | null;
+  ranking?: number | null;
+  acceptedExams?: string[];
+  faculty?: number;
+  students?: number;
+  collegeType?: string;
+  package?: {
+    average: number;
+    highest: number;
+  };
+  campusImages?: string[];
+  cutoffRank?: number | null;
   createdAt?: string;
 }
 
 export interface CollegeFilters {
   search?: string;
   location?: string;
+  state?: string;
+  city?: string;
   minFees?: number;
   maxFees?: number;
+  minPlacement?: number;
+  maxPlacement?: number;
+  minNirfRank?: number;
+  maxNirfRank?: number;
+  ownershipType?: string;
+  exam?: string;
   course?: string;
+  sortBy?: "fees" | "placement" | "rating" | "nirfRank" | "name";
+  sortOrder?: "asc" | "desc";
   page?: number;
   limit?: number;
 }

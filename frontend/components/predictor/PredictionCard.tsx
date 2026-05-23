@@ -91,7 +91,7 @@ export default function PredictionCard({ prediction, rank }: PredictionCardProps
               </p>
               <p className="mt-0.5 flex items-center gap-1 text-sm font-bold text-slate-800">
                 <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                {college.rating.toFixed(1)}
+                {(college.rating ?? 0).toFixed(1)}
               </p>
             </div>
             <div className="rounded-lg bg-white/80 px-3 py-2 ring-1 ring-slate-100">

@@ -88,7 +88,7 @@ export default function CollegeCard({
       <div className="relative h-40 overflow-hidden bg-slate-100">
         <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105">
           <CollegeImage
-            src={college.banner || college.image}
+            src={college.banner || college.images?.[0]}
             alt={college.name}
             sizes="(max-width:768px) 100vw, 33vw"
           />
@@ -109,7 +109,7 @@ export default function CollegeCard({
         <div className="absolute right-3 top-3 flex items-center gap-1.5">
           <span className="inline-flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 text-xs font-bold text-amber-600 shadow">
             <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            {college.rating.toFixed(1)}
+            {(college.rating ?? 0).toFixed(1)}
           </span>
           <button
             type="button"

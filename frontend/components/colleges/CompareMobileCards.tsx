@@ -107,7 +107,7 @@ export default function CompareMobileCards({ colleges }: CompareMobileCardsProps
           label="Rating"
           icon={<Star className="h-3.5 w-3.5" />}
           bestIds={bestRating}
-          values={colleges.map((c) => ({ id: c.id, text: c.rating.toFixed(1) }))}
+          values={colleges.map((c) => ({ id: c.id, text: (c.rating ?? 0).toFixed(1) }))}
         />
         <div className="pt-3">
           <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
