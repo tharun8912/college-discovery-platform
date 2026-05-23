@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "College" ADD COLUMN IF NOT EXISTS "recruiters" TEXT[] DEFAULT ARRAY[]::TEXT[];
+ALTER TABLE "College" ADD COLUMN IF NOT EXISTS "ranking" INTEGER;
