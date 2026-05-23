@@ -23,27 +23,27 @@ export const getColleges = async (
 };
 
 export const getFeaturedColleges = async (): Promise<College[]> => {
-  const { data } = await api.get<College[]>("/api/colleges/featured");
+  const { data } = await api.get<College[]>("/colleges/featured");
   return data;
 };
 
 export const getCollegeById = async (id: number): Promise<College> => {
-  const { data } = await api.get<College>(`/api/colleges/${id}`);
+  const { data } = await api.get<College>(`/colleges/${id}`);
   return data;
 };
 
 export const getLocations = async (): Promise<string[]> => {
-  const { data } = await api.get<string[]>("/api/colleges/locations");
+  const { data } = await api.get<string[]>("/colleges/locations");
   return data;
 };
 
 export const getCourses = async (): Promise<string[]> => {
-  const { data } = await api.get<string[]>("/api/colleges/courses");
+  const { data } = await api.get<string[]>("/colleges/courses");
   return data;
 };
 
 export const compareColleges = async (ids: number[]): Promise<College[]> => {
-  const { data } = await api.get<College[]>("/api/colleges/compare", {
+  const { data } = await api.get<College[]>("/colleges/compare", {
     params: { ids: ids.join(",") },
   });
   return data;
