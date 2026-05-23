@@ -12,9 +12,10 @@ const PORT = Number(process.env.PORT) || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000",
       "http://127.0.0.1:3000",
       "https://college-discovery-platform-r9ktgmmol-tharun8912s-projects.vercel.app",
+    ],
     credentials: true,
   })
 );
