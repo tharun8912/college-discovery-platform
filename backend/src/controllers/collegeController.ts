@@ -36,7 +36,7 @@ interface CollegeQuery {
   sortBy?: "fees" | "placement" | "rating" | "nirfRank" | "name";
   sortOrder?: SortOrder;
   page?: number;
-  limit?: number;
+  ?: number;
 }
 
 function toNumber(value: unknown): number | undefined {
@@ -228,9 +228,16 @@ function getFilteredColleges(query: Request["query"]) {
   return { filters, paginated };
 }
 
-export const getColleges = async (req: Request, res: Response) => {
-  const { paginated } = getFilteredColleges(req.query);
-  res.json(paginated);
+export const getColleges = async (_req: Request, res: Response) => {
+  res.json({
+    data: colleges.map(formatCollege),
+    pagination: {
+      page: 1,
+      limit: colleges.length,
+      total: colleges.length,
+      totalPages: 1,
+    },
+  });
 };
 
 export const getFeaturedColleges = async (_req: Request, res: Response) => {
