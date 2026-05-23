@@ -58,7 +58,7 @@ export default function CollegeDetailPage() {
 
   const gallery = [
     college.banner || college.images?.[0] || college.logo,
-    ...(college.campusImages ?? college.images ?? []),
+    ...(college.images ?? []),
   ].filter(Boolean) as string[];
 
   const inCompare = isSelected(college.id);

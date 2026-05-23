@@ -68,7 +68,7 @@ export default function DiscussionDetailPage() {
       <article className="mt-6 rounded-xl border border-slate-200 bg-white p-6">
         <h1 className="text-2xl font-bold text-slate-900">{question.title}</h1>
         <p className="mt-1 text-sm text-slate-400">by {question.author}</p>
-        <p className="mt-4 leading-relaxed text-slate-700">{question.body}</p>
+        <p className="mt-4 leading-relaxed text-slate-700">{question.content}</p>
       </article>
 
       <section className="mt-8">
@@ -79,7 +79,7 @@ export default function DiscussionDetailPage() {
           {(question.answers ?? []).map((a) => (
             <div key={a.id} className="rounded-xl border border-slate-100 bg-white p-5">
               <p className="text-sm font-medium text-slate-800">{a.author}</p>
-              <p className="mt-2 text-slate-600">{a.body}</p>
+              <p className="mt-2 text-slate-600">{a.content}</p>
             </div>
           ))}
         </div>

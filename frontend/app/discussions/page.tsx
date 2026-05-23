@@ -111,9 +111,9 @@ export default function DiscussionsPage() {
                   <MessageCircle className="mt-1 h-5 w-5 shrink-0 text-[#ff6b35]" />
                   <div>
                     <h2 className="font-semibold text-slate-900">{q.title}</h2>
-                    <p className="mt-1 line-clamp-2 text-sm text-slate-600">{q.body}</p>
+                    <p className="mt-1 line-clamp-2 text-sm text-slate-600">{q.content}</p>
                     <p className="mt-2 text-xs text-slate-400">
-                      {q.author} · {q._count?.answers ?? q.answers?.length ?? 0} answers
+                      {q.author} · {q.answers?.length ?? 0} answers
                     </p>
                   </div>
                 </div>

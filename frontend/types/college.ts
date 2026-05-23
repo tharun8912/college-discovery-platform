@@ -58,7 +58,6 @@ export interface College {
     highest?: number;
   };
 }
-
 export interface PaginatedColleges {
   data: College[];
   pagination: {
@@ -67,4 +66,40 @@ export interface PaginatedColleges {
     total: number;
     totalPages: number;
   };
+}
+
+export interface CollegeFilters {
+  search?: string;
+  location?: string;
+  course?: string;
+  minFees?: number;
+  maxFees?: number;
+  page?: number;
+  limit?: number;
+}
+export interface Question {
+  id: number;
+  title: string;
+  content: string;
+  author: string;
+  createdAt?: string;
+  answers?: Answer[];
+}
+export interface SavedComparison {
+  id: number;
+  name: string;
+  collegeIds: number[];
+  colleges?: College[];
+  createdAt?: string;
+}
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+export interface Answer {
+  id: number;
+  content: string;
+  author: string;
+  createdAt?: string;
 }
