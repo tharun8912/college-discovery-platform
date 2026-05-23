@@ -190,7 +190,7 @@ export default function CollegeDetailPage() {
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-slate-900">Student reviews</h2>
             <span className="text-sm text-slate-500">
-              {avgReview.toFixed(1)} avg · {college.reviews?.length ?? 0} reviews
+              {(avgReview ?? 0).toFixed(1)} avg · {college.reviews?.length ?? 0} reviews
             </span>
           </div>
           <div className="mt-4 space-y-4">
