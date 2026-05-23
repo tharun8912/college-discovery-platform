@@ -1,14 +1,18 @@
 import api from "@/lib/api";
 
-export const getColleges = async () => {
-  const { data } = await api.get("/colleges");
-  return data;
+export const getColleges = async (_filters?: import("@/types/college").CollegeFilters) => {
+  const res = await api.get("/colleges");
+  // Backend returns: { data: College[], pagination: {...} }
+  return res.data;
 };
+
 
 export const getFeaturedColleges = async () => {
   const { data } = await api.get("/colleges/featured");
   return data;
 };
+
+
 
 export const getCollegeById = async (id: number) => {
   const { data } = await api.get(`/colleges/${id}`);
